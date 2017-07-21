@@ -5,7 +5,7 @@ from astropy.io import fits
 matplotlib.use("TkAgg")
 from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg, NavigationToolbar2TkAgg
 from matplotlib.figure import Figure
-from Model import LabelModel
+from fitsfilemodel import PairLabelModel
 
 import sys
 if sys.version_info[0] < 3:
