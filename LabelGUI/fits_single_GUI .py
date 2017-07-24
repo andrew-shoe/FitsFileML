@@ -25,7 +25,7 @@ def load_fitsfiles(model):
     model.set_working_dir(x)
     on_file = model.get_next_unlabeled()
     if not on_file:
-        model.cur_msg.set("No unlabeled pairs")
+        model.cur_msg.set("No unlabeled files")
         return
     else:
         plot(on_file)
@@ -36,7 +36,7 @@ def disp_next_pair(model):
         model.cur_msg.set("Choose a project")
         return
 
-    on_file, off_file = model.get_next_unlabeled()
+    on_file = model.get_next_unlabeled()
 
     if not on_file:
         print("No more files")
@@ -47,13 +47,13 @@ def label(model, lbl):
     if not model.working_dir:
         model.cur_msg.set("Choose a project")
     else:
-        on_file, _ = model.get_next_unlabeled()
+        on_file = model.get_next_unlabeled()
         if not on_file:
-            model.cur_msg.set("No more unlabeled pairs")
+            model.cur_msg.set("No more unlabeled files")
         else:
             model.write_row(on_file, lbl)
             disp_next_pair(model)
-            model.cur_msg.set("{} more pairs left".format(len(model.get_unlabeled_pairs())))
+            model.cur_msg.set("{} files left".format(len(model.get_unlabeled_files())))
 
 def undo(model):
     on_file, off_file = model.undo()
@@ -62,7 +62,7 @@ def undo(model):
         return
     else:
         plot(on_file)
-        model.cur_msg.set("{} more pairs left".format(len(model.get_unlabeled_pairs())))
+        model.cur_msg.set("{} files left".format(len(model.get_unlabeled_pairs())))
 
 def plot(file):
     on_plot.cla()
@@ -104,54 +104,80 @@ freq_label.grid(row=1, column=2)
 """The following is super haggard and should be optimized"""
 
 freq_label = tk.Label(root, text="NARROW BAND")
-freq_label.grid(row=2, column=1, columnspan=2)
-button0 = tk.Button(root, text="0", padx=50, command=lambda: label(model, 00))
+freq_label.grid(row=2, column=1, columnspan=1)
+button0 = tk.Button(root, text="[1] Diagonal (1)", padx=50, command=lambda: label(model, 0))
 button0.grid(row=3, column=0)
-button1 = tk.Button(root, text="1", padx=50, command=lambda: label(model, 01))
+button1 = tk.Button(root, text="[2] Diagonal (1+)", padx=50, command=lambda: label(model, 1))
 button1.grid(row=3, column=1)
-button2 = tk.Button(root, text="2", padx=50, command=lambda: label(model, 02))
+button2 = tk.Button(root, text="[3] Horizontal", padx=50, command=lambda: label(model, 2))
 button2.grid(row=3, column=2)
-button3 = tk.Button(root, text="3", padx=50, command=lambda: label(model, 03))
-button3.grid(row=3, column=3)
-button4 = tk.Button(root, text="4", padx=50, command=lambda: label(model, 04))
-button4.grid(row=4, column=0)
-button5 = tk.Button(root, text="1", padx=50, command=lambda: label(model, 05))
-button5.grid(row=4, column=1)
-button6 = tk.Button(root, text="2", padx=50, command=lambda: label(model, 06))
-button6.grid(row=4, column=2)
-button7 = tk.Button(root, text="3", padx=50, command=lambda: label(model, 07))
-button7.grid(row=4, column=3)
 
-freq_label = tk.Label(root, text="NARROW BAND")
-freq_label.grid(row=5, column=1, columnspan=2)
-button10 = tk.Button(root, text="0", padx=50, command=lambda: label(model, 10))
-button10.grid(row=6, column=0)
-button11 = tk.Button(root, text="1", padx=50, command=lambda: label(model, 11))
-button11.grid(row=6, column=1)
-button12 = tk.Button(root, text="2", padx=50, command=lambda: label(model, 12))
-button12.grid(row=6, column=2)
-button13 = tk.Button(root, text="3", padx=50, command=lambda: label(model, 13))
-button13.grid(row=6, column=3)
-button14 = tk.Button(root, text="4", padx=50, command=lambda: label(model, 14))
-button14.grid(row=7, column=0)
-button15 = tk.Button(root, text="1", padx=50, command=lambda: label(model, 15))
-button15.grid(row=7, column=1)
-button16 = tk.Button(root, text="2", padx=50, command=lambda: label(model, 16))
-button16.grid(row=7, column=2)
-button17 = tk.Button(root, text="3", padx=50, command=lambda: label(model, 17))
-button17.grid(row=7, column=3)
+button3 = tk.Button(root, text="[8] Vertical (1)", padx=50, command=lambda: label(model, 3))
+button3.grid(row=4, column=0)
+button4 = tk.Button(root, text="[9] Vertical (even)", padx=50, command=lambda: label(model, 4))
+button4.grid(row=4, column=1)
+button5 = tk.Button(root, text="[0] Vertical (inf)", padx=50, command=lambda: label(model, 5))
+button5.grid(row=4, column=2)
+
+freq_label = tk.Label(root, text="WIDE BAND")
+freq_label.grid(row=5, column=1, columnspan=1)
+button6 = tk.Button(root, text="[a] Diagonal (1)", padx=50, command=lambda: label(model, 6))
+button6.grid(row=6, column=0)
+button7 = tk.Button(root, text="[s] Diagonal (1+)", padx=50, command=lambda: label(model, 7))
+button7.grid(row=6, column=1)
+button8 = tk.Button(root, text="[d] Horizontal", padx=50, command=lambda: label(model, 8))
+button8.grid(row=6, column=2)
+
+button9 = tk.Button(root, text="[j] Vertical (1)", padx=50, command=lambda: label(model, 9))
+button9.grid(row=7, column=0)
+button10 = tk.Button(root, text="[k] Vertical (even)", padx=50, command=lambda: label(model, 10))
+button10.grid(row=7, column=1)
+button11 = tk.Button(root, text="[l] Vertical (inf)", padx=50, command=lambda: label(model, 11))
+button11.grid(row=7, column=2)
+
+freq_label = tk.Label(root, text="OTHER")
+freq_label.grid(row=8, column=1, columnspan=1)
+button12 = tk.Button(root, text="[z] No Signal", padx=50, command=lambda: label(model, 12))
+button12.grid(row=9, column=0)
+button13 = tk.Button(root, text="[x] Combination", padx=50, command=lambda: label(model, 13))
+button13.grid(row=9, column=1)
+button14 = tk.Button(root, text="[c] Signal of Interest", padx=50, command=lambda: label(model, 14))
+button14.grid(row=9, column=2)
 
 load_project_button = tk.Button(root, text="Load Project", command=lambda: load_fitsfiles(model))
-load_project_button.grid(row=8, column=1)
+load_project_button.grid(row=10, column=1)
 
 undo_button = tk.Button(root, text="Undo", command=lambda: undo(model))
-undo_button.grid(row=8, column=2)
+undo_button.grid(row=10, column=2)
 
 # Set up message box
 model.cur_msg = tk.StringVar()
 model.cur_msg.set("Messages will be displayed here")
 msg_box = tk.Label(root, textvariable=model.cur_msg)
-msg_box.grid(row=9, columnspan=4)
+msg_box.grid(row=12, columnspan=3)
+
+# Bind hotkeys
+root.focus_set()
+
+root.bind("1", lambda x: label(model, 0))
+root.bind("2", lambda x: label(model, 1))
+root.bind("3", lambda x: label(model, 2))
+
+root.bind("8", lambda x: label(model, 3))
+root.bind("9", lambda x: label(model, 4))
+root.bind("0", lambda x: label(model, 5))
+
+root.bind("a", lambda x: label(model, 6))
+root.bind("s", lambda x: label(model, 7))
+root.bind("d", lambda x: label(model, 8))
+
+root.bind("j", lambda x: label(model, 9))
+root.bind("k", lambda x: label(model, 10))
+root.bind("l", lambda x: label(model, 11))
+
+root.bind("z", lambda x: label(model, 12))
+root.bind("x", lambda x: label(model, 13))
+root.bind("c", lambda x: label(model, 14))
 
 
 # mainloop

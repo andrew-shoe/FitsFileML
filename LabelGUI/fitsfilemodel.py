@@ -119,8 +119,8 @@ class SingleLabelModel:
         self.label_file = path.join(working_dir, "{}_labels.csv".format(self.cur_dir))
 
         if not path.isfile(self.label_file):
-            with open(self.label_file, 'wb') as csvfile:
-                writer = csv.DictWriter(csvfile, fieldnames=["pair", "label"], delimiter=',')
+            with open(self.label_file, 'w') as csvfile:
+                writer = csv.DictWriter(csvfile, fieldnames=["file", "label"], delimiter=',')
                 writer.writeheader()
                 self.unlabeled_files = copy.copy(self.files)
 
@@ -146,7 +146,7 @@ class SingleLabelModel:
 
     def write_row(self, fname, label):
         self.prev = fname
-        self.unlabeled_files.pop(fname)
+        self.unlabeled_files.remove(fname)
         with open(self.label_file, "a") as csvfile:
             w = csv.writer(csvfile, delimiter=",")
             w.writerow([fname, label])
