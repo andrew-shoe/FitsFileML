@@ -1,4 +1,3 @@
-import fitsio as fio
 import matplotlib
 import numpy as np
 from astropy.io import fits
@@ -72,7 +71,7 @@ def undo(model):
 def plot(file):
     on_plot.cla()
     on_log_plot.cla()
-    on_data = fio.read(file)
+    on_data = fits.getdata(file)
     c_freq.set("Center Frequency: {}".format(fits.open(file)[0].header["FCNTR"]))
     on_plot.imshow(on_data, aspect=5)
 
