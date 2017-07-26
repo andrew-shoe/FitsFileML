@@ -20,7 +20,6 @@ else:
 
 
 def load_fitsfiles(model):
-
     """Function that is to intialize project. Sets up the model and plots the first file"""
 
     x = tkFileDialog.askdirectory()
@@ -33,7 +32,6 @@ def load_fitsfiles(model):
         plot(on_file)
 
 def disp_next(model):
-
     """Displays next unlabeled fits file"""
 
     if not model.cur_dir:
@@ -48,10 +46,13 @@ def disp_next(model):
         plot(on_file)
 
 def label(model, lbl):
+
+    """Writes label of current displayed file to a csv"""
+
     if not model.working_dir:
         model.cur_msg.set("Choose a project")
     else:
-        on_file = model.get_next_unlabeled()
+        on_file = model.get_next_unlabeled() #  The current file that is displayed
         if not on_file:
             model.cur_msg.set("No more unlabeled files")
         else:
@@ -60,6 +61,7 @@ def label(model, lbl):
             model.cur_msg.set("{} files left".format(len(model.get_unlabeled_files())))
 
 def undo(model):
+    """Undos previous label"""
     on_file, off_file = model.undo()
     if not on_file:
         model.cur_msg.set("Cannot undo")
@@ -69,6 +71,7 @@ def undo(model):
         model.cur_msg.set("{} files left".format(len(model.get_unlabeled_pairs())))
 
 def plot(file):
+    """Plots given file"""
     on_plot.cla()
     on_log_plot.cla()
     on_data = fits.getdata(file)
@@ -80,7 +83,9 @@ def plot(file):
     f.suptitle(file)
     f.canvas.draw()
 
-model = SingleLabelModel()
+model = SingleLabelModel()  # Initialize model. The model controls the logic between the actual fitsfile, GUI and csv
+
+# Everything below this is to set up GUI
 root = tk.Tk()
 
 root.geometry("800x700")
@@ -105,7 +110,9 @@ freq_label = tk.Label(root, textvar=c_freq)
 freq_label.grid(row=1, column=2)
 
 
-"""The following is super haggard and should be optimized"""
+"""The following is super haggard and should be optimized
+Can easily be customized for different labels. Can even add or remove labels to your liking"""
+
 
 freq_label = tk.Label(root, text="NARROW BAND")
 freq_label.grid(row=2, column=1, columnspan=1)
