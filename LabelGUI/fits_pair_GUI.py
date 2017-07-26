@@ -1,4 +1,3 @@
-import fitsio as fio
 import matplotlib
 import numpy as np
 from astropy.io import fits
@@ -69,8 +68,8 @@ def plot(on_file, off_file):
     off_plot.cla()
     on_log_plot.cla()
     off_log_plot.cla()
-    on_data = fio.read(on_file)
-    off_data = fio.read(off_file)
+    on_data = fits.getdata(on_file)
+    off_data = fits.getdata(off_file)
     c_freq.set("Center Frequency: {}".format(fits.open(on_file)[0].header["FCNTR"]))
     vmin = min([np.min(on_data), np.min(off_data)])
     vmax = max([np.max(on_data), np.max(off_data)])
