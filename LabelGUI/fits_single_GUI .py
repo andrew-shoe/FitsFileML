@@ -11,7 +11,7 @@ import sys
 
 """Kind of haggard, just for Mulan right now"""
 
-
+# Tkinter has different package name on differnt python versions >:(
 if sys.version_info[0] < 3:
     import Tkinter as tk
     import tkFileDialog
@@ -21,6 +21,9 @@ else:
 
 
 def load_fitsfiles(model):
+
+    """Function that is to intialize project. Sets up the model and plots the first file"""
+
     x = tkFileDialog.askdirectory()
     model.set_working_dir(x)
     on_file = model.get_next_unlabeled()
@@ -30,7 +33,9 @@ def load_fitsfiles(model):
     else:
         plot(on_file)
 
-def disp_next_pair(model):
+def disp_next(model):
+
+    """Displays next unlabeled fits file"""
 
     if not model.cur_dir:
         model.cur_msg.set("Choose a project")
@@ -52,7 +57,7 @@ def label(model, lbl):
             model.cur_msg.set("No more unlabeled files")
         else:
             model.write_row(on_file, lbl)
-            disp_next_pair(model)
+            disp_next(model)
             model.cur_msg.set("{} files left".format(len(model.get_unlabeled_files())))
 
 def undo(model):
