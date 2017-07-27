@@ -5,7 +5,6 @@ matplotlib.use("TkAgg")
 from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg, NavigationToolbar2TkAgg
 from matplotlib.figure import Figure
 from fitsfilemodel import PairLabelModel
-
 import sys
 if sys.version_info[0] < 3:
     import Tkinter as tk
@@ -14,12 +13,13 @@ else:
     import tkinter as tk
     import tkinter.filedialog as tkFileDialog
 
-class Manager:
-    def set_model(self, model):
-        self.model = model
 
+# Author: Andrew Xu
+# Date: 7/17/17
 
 def load_fitsfiles(model):
+    """Function that is to intialize project. Sets up the model and plots the pair"""
+
     x = tkFileDialog.askdirectory()
     model.set_working_dir(x)
     on_file, off_file = model.get_next_unlabeled()
@@ -30,6 +30,7 @@ def load_fitsfiles(model):
         plot(on_file, off_file)
 
 def disp_next_pair(model):
+    """Displays next unlabeled pair"""
 
     if not model.cur_dir:
         model.cur_msg.set("Choose a project")
@@ -43,6 +44,7 @@ def disp_next_pair(model):
         plot(on_file, off_file)
 
 def label(model, lbl):
+    """Labels pairs"""
     if not model.working_dir:
         model.cur_msg.set("Choose a project")
     else:
@@ -55,6 +57,8 @@ def label(model, lbl):
             model.cur_msg.set("{} more pairs left".format(len(model.get_unlabeled_pairs())))
 
 def undo(model):
+    """Undos the previously labeled file"""
+
     on_file, off_file = model.undo()
     if not on_file:
         model.cur_msg.set("Cannot undo")
@@ -64,6 +68,8 @@ def undo(model):
         model.cur_msg.set("{} more pairs left".format(len(model.get_unlabeled_pairs())))
 
 def plot(on_file, off_file):
+    """Plots a pair"""
+
     on_plot.cla()
     off_plot.cla()
     on_log_plot.cla()
@@ -84,6 +90,8 @@ def plot(on_file, off_file):
     off_log_plot.imshow(off_data_log, vmin=vmin, vmax=vmax, aspect=5)
     f.suptitle(on_file)
     f.canvas.draw()
+
+    
 model = LabelModel()
 root = tk.Tk()
 
