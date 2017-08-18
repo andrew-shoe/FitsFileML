@@ -11,7 +11,7 @@ Can signals of interest for SETI (those that are rare and located only in one pl
 Many of the algorithms that are currently run on Green Bank Telescope data search for simple tones, pulses, or drifting narrow-band signals. But these signals can be difficult to distinguish from human-generated radio frequency interference (RFI), and in addition the pipeline may miss more complex signals that could be of interest. Your task will be to explore and develop unsupervised/semi-supervised machine learning algorithms at scale to identify, extract, and classify signals of interest into various populations, and analyze how these signals cluster under varying feature sets.
 
 For a general overview of what was done, read the SETI Final Report pdf.
-Note that due to the amount of data, many of the intermediate files and dataframes mentioned (used for calculations; .npy and .pkl format) have not been pushed to this Github repository – email jmxia@berkeley.edu if you’d like to have a look at it! 
+Note that due to the amount of data, many of the intermediate files and dataframes mentioned (used for calculations; .npy and .pkl format) have not been pushed to this Github repository. Additionally, all code is currently in a private repository – email jmxia@berkeley.edu if you’d like to have a look at it! 
 
 ## Jupyter Notebooks
 
