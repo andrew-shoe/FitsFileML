@@ -6,11 +6,11 @@ from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg, NavigationToolb
 from matplotlib.figure import Figure
 from fitsfilemodel import SingleLabelModel
 import sys
-
+import csv
 
 """Kind of haggard, just for Mulan right now"""
 
-# Tkinter has different package name on differnt python versions >:(
+# Tkinter has different package name on different python versions >:(
 if sys.version_info[0] < 3:
     import Tkinter as tk
     import tkFileDialog
@@ -18,6 +18,20 @@ else:
     import tkinter as tk
     import tkinter.filedialog as tkFileDialog
 
+# Ensure there is one argument being passed in, should be csv file.
+assert len(sys.argv) == 2
+assert sys.argv[1][-3:] == "csv"
+
+f = sys.argv[1]
+labels = []
+
+with open(f, 'rt') as csvfile:
+    reader = csv.reader(csvfile, delimiter=',')
+    for row in reader:
+        labels.extend(row)
+
+while len(labels) < 15:
+    labels.extend(' ')
 
 def load_fitsfiles(model):
     """Function that is to intialize project. Sets up the model and plots the first file"""
@@ -113,46 +127,45 @@ freq_label.grid(row=1, column=2)
 """The following is super haggard and should be optimized
 Can easily be customized for different labels. Can even add or remove labels to your liking"""
 
-
-freq_label = tk.Label(root, text="NARROW BAND")
+freq_label = tk.Label(root)
 freq_label.grid(row=2, column=1, columnspan=1)
-button0 = tk.Button(root, text="[1] Diagonal (1)", padx=50, command=lambda: label(model, 0))
+button0 = tk.Button(root, text="(1) " + labels[0], padx=50, command=lambda: label(model, 0))
 button0.grid(row=3, column=0)
-button1 = tk.Button(root, text="[2] Diagonal (1+)", padx=50, command=lambda: label(model, 1))
+button1 = tk.Button(root, text="(2) " + labels[1], padx=50, command=lambda: label(model, 1))
 button1.grid(row=3, column=1)
-button2 = tk.Button(root, text="[3] Horizontal", padx=50, command=lambda: label(model, 2))
+button2 = tk.Button(root, text="(3) " + labels[2], padx=50, command=lambda: label(model, 2))
 button2.grid(row=3, column=2)
 
-button3 = tk.Button(root, text="[8] Vertical (1)", padx=50, command=lambda: label(model, 3))
+button3 = tk.Button(root, text="(8) " + labels[3], padx=50, command=lambda: label(model, 3))
 button3.grid(row=4, column=0)
-button4 = tk.Button(root, text="[9] Vertical (even)", padx=50, command=lambda: label(model, 4))
+button4 = tk.Button(root, text="(9) " + labels[4], padx=50, command=lambda: label(model, 4))
 button4.grid(row=4, column=1)
-button5 = tk.Button(root, text="[0] Vertical (inf)", padx=50, command=lambda: label(model, 5))
+button5 = tk.Button(root, text="(0) " + labels[5], padx=50, command=lambda: label(model, 5))
 button5.grid(row=4, column=2)
 
-freq_label = tk.Label(root, text="WIDE BAND")
+freq_label = tk.Label(root)
 freq_label.grid(row=5, column=1, columnspan=1)
-button6 = tk.Button(root, text="[a] Diagonal (1)", padx=50, command=lambda: label(model, 6))
+button6 = tk.Button(root, text="(a) " + labels[6], padx=50, command=lambda: label(model, 6))
 button6.grid(row=6, column=0)
-button7 = tk.Button(root, text="[s] Diagonal (1+)", padx=50, command=lambda: label(model, 7))
+button7 = tk.Button(root, text="(s) " + labels[7], padx=50, command=lambda: label(model, 7))
 button7.grid(row=6, column=1)
-button8 = tk.Button(root, text="[d] Horizontal", padx=50, command=lambda: label(model, 8))
+button8 = tk.Button(root, text="(d) " + labels[8], padx=50, command=lambda: label(model, 8))
 button8.grid(row=6, column=2)
 
-button9 = tk.Button(root, text="[j] Vertical (1)", padx=50, command=lambda: label(model, 9))
+button9 = tk.Button(root, text="(j) " + labels[9], padx=50, command=lambda: label(model, 9))
 button9.grid(row=7, column=0)
-button10 = tk.Button(root, text="[k] Vertical (even)", padx=50, command=lambda: label(model, 10))
+button10 = tk.Button(root, text="(k) " + labels[10], padx=50, command=lambda: label(model, 10))
 button10.grid(row=7, column=1)
-button11 = tk.Button(root, text="[l] Vertical (inf)", padx=50, command=lambda: label(model, 11))
+button11 = tk.Button(root, text="(l) " + labels[11], padx=50, command=lambda: label(model, 11))
 button11.grid(row=7, column=2)
 
-freq_label = tk.Label(root, text="OTHER")
+freq_label = tk.Label(root)
 freq_label.grid(row=8, column=1, columnspan=1)
-button12 = tk.Button(root, text="[z] No Signal", padx=50, command=lambda: label(model, 12))
+button12 = tk.Button(root, text="(z) " + labels[12], padx=50, command=lambda: label(model, 12))
 button12.grid(row=9, column=0)
-button13 = tk.Button(root, text="[x] Combination", padx=50, command=lambda: label(model, 13))
+button13 = tk.Button(root, text="(s) " + labels[13], padx=50, command=lambda: label(model, 13))
 button13.grid(row=9, column=1)
-button14 = tk.Button(root, text="[c] Signal of Interest", padx=50, command=lambda: label(model, 14))
+button14 = tk.Button(root, text="(v) " + labels[14], padx=50, command=lambda: label(model, 14))
 button14.grid(row=9, column=2)
 
 load_project_button = tk.Button(root, text="Load Project", command=lambda: load_fitsfiles(model))
